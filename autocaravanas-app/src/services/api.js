@@ -8,4 +8,5 @@ export async function getAutocaravanas() {
     }
 
     return await response.json();
+    
 }
