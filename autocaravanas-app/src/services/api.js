@@ -1,6 +1,6 @@
 const API = "http://localhost:3001/autocaravanas";
 
-export async function getAutocaravanas() {
+export async function getAutocaravans() {
     const response = await fetch(`${API}/itens`);
 
     if (!response.ok) {

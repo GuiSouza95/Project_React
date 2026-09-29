@@ -1,8 +1,8 @@
-export default function Autocaravana(props){
+export default function Autocaravan(props){
 
     return (
-        <>
-            <img src={props.image} alt={props.nome}/>
+        <div className="border border-gray-200 rounded-x1 p-4 bg-white shadow-sm">
+            <img src={props.imagem} alt={props.nome}/>
 
             <p>{props.nome}</p>
 
@@ -31,6 +31,6 @@ export default function Autocaravana(props){
                     <h3>{props.avaliacao}</h3>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
