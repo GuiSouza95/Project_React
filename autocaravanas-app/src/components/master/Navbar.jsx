@@ -1,20 +1,28 @@
+import { NavLink } from "react-router-dom";
+
+ const linkStyle = ({ isActive }) => {
+    return isActive
+      ? "font-bold text-orange-950 p-1 border-2 rounded-[4vw] border-solid border-orange-950"
+      : "text-orange-950 hover:text-orange-950";
+  };
+
 export default function Navbar() {
     return (
         <nav className="bg-lime-800 border-b">
             <div className="max-w-7xl mx-auto px-6 py-10 flex items-center justify-between">
-                <a href="/" className="text-2xl text-orange-950 font-bold">
+                <NavLink to="/" className="text-2xl text-orange-950 font-bold">
                     Autocaravanas
-                </a>
+                </NavLink>
                 <div className="flex gap-6">
-                    <a href="/" className="text-orange-950 hover:text-black">
+                    <NavLink to="/" className={linkStyle}>
                         Início
-                    </a>
-                    <a href="/autocaravanas" className="text-orange-950 hover:text-black">
+                    </NavLink>
+                    <NavLink to="/autocaravanas" className={linkStyle}>
                         Autocaravanas
-                    </a>
-                    <a href="/reservas" className="text-orange-950 hover:text-black">
+                    </NavLink>
+                    <NavLink to="/reservas" className={linkStyle}>
                         Reservas
-                    </a>
+                    </NavLink>
                 </div>
             </div>
         </nav>
