@@ -20,7 +20,7 @@ export default function Caravans() {
     const caravansFilter = autocaravans.filter((caravans) => caravans.nome.toLowerCase().includes(search.toLowerCase()));
 
     return(
-        <div className="min-h-screen bg-gray-100 px-6 py-10">
+        <div className="nature-background flex-1 px-6 py-10">
 
             <div className="flex justify-between">
                 <div>
