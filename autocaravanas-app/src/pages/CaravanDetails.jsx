@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getAutocaravansById } from "../services/api";
 import { validarReserva } from "../utils/validarReserva";
 import Button from "../components/common/Button";
+import { calcularDias, calcularPrecoTotal } from "../utils/reservaCalculations";
 
 export default function CaravanDetails() {
   const { id } = useParams();
@@ -13,6 +14,14 @@ export default function CaravanDetails() {
   const [dataFim, setDataFim] = useState("");
   const [viajantes, setViajantes] = useState(1);
   const [mensagemErro, setMensagemErro] = useState("");
+
+  const datasValidas = dataInicio && dataFim && dataFim > dataInicio;
+
+  const dias = datasValidas ? calcularDias(dataInicio, dataFim) : 0;
+
+  const precoTotal = datasValidas
+    ? calcularPrecoTotal(dataInicio, dataFim, caravan?.precoDia)
+    : 0;
 
   function handleValidarReserva() {
     const erro = validarReserva(
@@ -142,6 +151,19 @@ export default function CaravanDetails() {
               Máximo: {caravan.capacidade} viajantes
             </p>
           </div>
+          {datasValidas && (
+            <div className="rounded-lg bg-gray-150 p-4">
+              <p>
+                Dias: <strong>{dias}</strong>
+              </p>
+
+              <p>
+                Preço por dia: <strong>{caravan.precoDia} €</strong>
+              </p>
+
+              <p className="text-xl font-bold mt-2">Total: {precoTotal} €</p>
+            </div>
+          )}
           <Button onClick={handleValidarReserva}>Reservar</Button>
           {mensagemErro && <p className="text-red-600">{mensagemErro}</p>}
         </form>
