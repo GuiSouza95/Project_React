@@ -1,15 +1,15 @@
-import { Routes, Route } from "react-router-dom";
 import AppRoute from "./Routes/AppRoute";
 import Footer from "./components/master/Footer";
 import Navbar from "./components/master/Navbar";
+import "./App.css";
 
 export default function App() {
   return (
-        <div className="min-h-screen flex flex-col">
+        <div className="app">
           <Navbar />
-          <div className="flex-1">
+          <main className="main-content">
             <AppRoute />
-          </div>
+          </main>
           <Footer />    
         </div>
   );

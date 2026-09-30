@@ -1,7 +1,7 @@
 export default function Footer() {
     return (
-        <footer className="bg-lime-800 text-black mt-12">
-            <div className="max-w-7xl mx-auto px-6 py-8">
+        <footer className="bg-lime-800 text-black">
+            <div className="max-w-7xl mx-auto px-6 py-7">
                 <p className="text-orange-950 mt-2">
                     Encontre a autocaravana ideal para a sua viagem.
                 </p>
