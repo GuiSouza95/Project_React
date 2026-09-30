@@ -7,6 +7,8 @@ export default function Caravans() {
 
     const [search, setSearch] = useState("");
 
+    const [type, setType] = useState("");
+
     useEffect(() => {
         getAutocaravans()
             .then((dados) => {
@@ -17,7 +19,7 @@ export default function Caravans() {
             });
     }, []);
 
-    const caravansFilter = autocaravans.filter((caravans) => caravans.nome.toLowerCase().includes(search.toLowerCase()));
+    const caravansFilter = autocaravans.filter((caravans) => caravans.nome.toLowerCase().includes(search.toLowerCase()) && (type === "" || caravans.categoria.toLowerCase() === type.toLowerCase()));
 
     return(
         <div className="nature-background flex-1 px-6 py-10">
@@ -28,6 +30,12 @@ export default function Caravans() {
                 </div>
 
                 <div>
+                    <select value={type} onChange={(e) => setType(e.target.value)}>
+                        <option value="">Todos</option>
+                        <option value="campervan">Campervan</option>
+                        <option value="autocaravana">Autocaravana</option>
+                    </select>
+
                     <input type="text" placeholder="Pesquisar..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full max-w-md rounded-lg border border-gray-300 bg-white px-4 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200" />
                 </div>
             </div>
