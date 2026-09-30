@@ -1,8 +1,14 @@
+import Button from "../common/Button";
+
 export default function Autocaravan(props){
 
     return (
         <div className="border border-gray-200 rounded-x1 p-4 bg-white shadow-sm">
-            <img src={props.imagem} alt={props.nome}/>
+            <img src={props.imagem || "/imagem-placeholder.jpg"} alt={props.nome}/>
+
+            <Button onClick={props.onToggleFavorite}>
+                {props.isFavorite ? "❤️" : "♡"}
+            </Button>
 
             <p>{props.nome}</p>
 
