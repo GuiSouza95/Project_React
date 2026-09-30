@@ -13,6 +13,10 @@ export default function Caravans() {
 
     const [sort, setSort] = useState("");
 
+    const [favorites, setFavorites] = useState(() => {
+        return JSON.parse(localStorage.getItem("favorites")) || [];
+    });
+
     useEffect(() => {
         getAutocaravans()
             .then((dados) => {
@@ -22,6 +26,10 @@ export default function Caravans() {
                 alert(error);
             });
     }, []);
+
+    useEffect(() => {
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+    }, [favorites]);
 
     const caravansFilter = autocaravans.filter((caravans) => caravans.nome.toLowerCase().includes(search.toLowerCase()) &&
     (type === "" || caravans.categoria.toLowerCase() === type.toLowerCase()) &&
@@ -47,6 +55,14 @@ export default function Caravans() {
 
         return 0;
     });
+
+    const toggleFavorite = (id) => {
+        if (favorites.includes(id)) {
+            setFavorites(favorites.filter((favoriteId) => favoriteId !== id));
+        }else{
+            setFavorites([...favorites, id]);
+        }
+    };
 
     return(
         <div className="nature-background flex-1 px-6 py-10">
@@ -88,6 +104,8 @@ export default function Caravans() {
                     <Autocaravan
                     key={caravans.id}
                     {...caravans}
+                    isFavorite={favorites.includes(caravans.id)}
+                    onToggleFavorite={() => toggleFavorite(caravans.id)}
                     />
                 ))}
             </div>
