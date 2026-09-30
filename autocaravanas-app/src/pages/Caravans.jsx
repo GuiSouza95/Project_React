@@ -9,6 +9,10 @@ export default function Caravans() {
 
     const [type, setType] = useState("");
 
+    const [zone, setZone] = useState("");
+
+    const [sort, setSort] = useState("");
+
     useEffect(() => {
         getAutocaravans()
             .then((dados) => {
@@ -19,12 +23,30 @@ export default function Caravans() {
             });
     }, []);
 
-    const [zone, setZone] = useState("");
-
     const caravansFilter = autocaravans.filter((caravans) => caravans.nome.toLowerCase().includes(search.toLowerCase()) &&
     (type === "" || caravans.categoria.toLowerCase() === type.toLowerCase()) &&
     (zone === "" || caravans.localizacao.toLowerCase() === zone.toLowerCase())
     );
+
+    const caravansSorted = [...caravansFilter].sort((a, b) => {
+        if (sort === "preco-asc") {
+            return a.precoDia - b.precoDia;
+        }
+
+        if (sort === "preco-desc") {
+            return b.precoDia - a.precoDia;
+        }
+
+        if (sort === "avaliacao-asc") {
+            return a.avaliacao - b.avaliacao;
+        }
+
+        if (sort === "avaliacao-desc") {
+            return b.avaliacao - a.avaliacao;
+        }
+
+        return 0;
+    });
 
     return(
         <div className="nature-background flex-1 px-6 py-10">
@@ -52,8 +74,17 @@ export default function Caravans() {
                 </div>
             </div>
 
+                <select value={sort} onChange={(e) => setSort(e.target.value)}>
+                    <option value="">Ordernar por</option>
+                    <option value="preco-asc">Preço: mais baixo</option>
+                    <option value="preco-desc">Preço: mais alto</option>
+                    <option value="avaliacao-asc">Avaliação: mais baixa</option>
+                    <option value="avaliacao-desc">Avaliação mais alta</option>
+                </select>
+
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 border border-gray-300 p-6 rounded-x1">
-                {caravansFilter.map((caravans) => (
+
+                {caravansSorted.map((caravans) => (
                     <Autocaravan
                     key={caravans.id}
                     {...caravans}
