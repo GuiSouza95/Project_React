@@ -3,7 +3,6 @@ import Home from "../pages/Home";
 import Caravans from "../pages/Caravans";
 import CaravanDetails from "../pages/CaravanDetails";
 import Reservations from "../pages/Reservations";
-import Favorites from "../pages/Favorites";
 import NotFound from "../pages/NotFound";
 
 export default function AppRoute() {
@@ -16,7 +15,6 @@ export default function AppRoute() {
         element={<CaravanDetails />}
       />
       <Route path="/reservas" element={<Reservations />} />
-      <Route path="/favoritos" element={<Favorites />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

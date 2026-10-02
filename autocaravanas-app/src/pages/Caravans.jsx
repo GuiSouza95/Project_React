@@ -1,9 +1,13 @@
-import { useEffect, useState } from "react";
-import { getAutocaravans } from "../services/api";
+import { useState } from "react";
 import Autocaravan from "../components/caravans/AutocaravanCard";
+import useAutocaravans from "../hooks/useAutocaravans";
+import useFavorites from "../hooks/useFavorites";
+import Button from "../components/common/Button";
 
 export default function Caravans() {
-    const [autocaravans, setAutocaravans] = useState([]);
+    const { autocaravans, loading, error } = useAutocaravans();
+
+    const { favorites, toggleFavorite } = useFavorites();
 
     const [search, setSearch] = useState("");
 
@@ -13,27 +17,12 @@ export default function Caravans() {
 
     const [sort, setSort] = useState("");
 
-    const [favorites, setFavorites] = useState(() => {
-        return JSON.parse(localStorage.getItem("favorites")) || [];
-    });
-
-    useEffect(() => {
-        getAutocaravans()
-            .then((dados) => {
-                setAutocaravans(dados);
-            })
-            .catch((error) => {
-                alert(error);
-            });
-    }, []);
-
-    useEffect(() => {
-        localStorage.setItem("favorites", JSON.stringify(favorites));
-    }, [favorites]);
+    const [onlyFavorites, setOnlyFavorites] = useState(false);
 
     const caravansFilter = autocaravans.filter((caravans) => caravans.nome.toLowerCase().includes(search.toLowerCase()) &&
     (type === "" || caravans.categoria.toLowerCase() === type.toLowerCase()) &&
-    (zone === "" || caravans.localizacao.toLowerCase() === zone.toLowerCase())
+    (zone === "" || caravans.localizacao.toLowerCase() === zone.toLowerCase()) &&
+    (!onlyFavorites || favorites.includes(caravans.id))
     );
 
     const caravansSorted = [...caravansFilter].sort((a, b) => {
@@ -56,20 +45,20 @@ export default function Caravans() {
         return 0;
     });
 
-    const toggleFavorite = (id) => {
-        if (favorites.includes(id)) {
-            setFavorites(favorites.filter((favoriteId) => favoriteId !== id));
-        }else{
-            setFavorites([...favorites, id]);
-        }
-    };
+    if (loading) {
+        return <p className="p-6">A carregar autocaravanas...</p>;
+    }
+
+    if (error) {
+        return <p className="p-6 text-red-600">{error}</p>;
+    }
 
     return(
         <div className="nature-background flex-1 px-6 py-10">
 
             <div className="flex justify-between">
                 <div>
-                    <h1 className="mb-8 text-3x1 front-bold text-gray-800">Autocaravanas</h1>
+                    <h1 className="mb-8 text-3xl font-bold text-gray-800">Autocaravanas</h1>
                 </div>
 
                 <div className="flex  items-center">
@@ -90,6 +79,7 @@ export default function Caravans() {
                 </div>
             </div>
 
+            <div className="flex justify-between">
                 <select value={sort} onChange={(e) => setSort(e.target.value)}>
                     <option value="">Ordernar por</option>
                     <option value="preco-asc">Preço: mais baixo</option>
@@ -98,7 +88,12 @@ export default function Caravans() {
                     <option value="avaliacao-desc">Avaliação mais alta</option>
                 </select>
 
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 border border-gray-300 p-6 rounded-x1">
+                <Button onClick={() => setOnlyFavorites(!onlyFavorites)}>
+                    {onlyFavorites ? "❤️ Mostrar todos" : "♡ Mostrar favoritos"}
+                </Button>
+            </div>
+
+            <div className="mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 border border-gray-300 p-6 rounded-xl">
 
                 {caravansSorted.map((caravans) => (
                     <Autocaravan
