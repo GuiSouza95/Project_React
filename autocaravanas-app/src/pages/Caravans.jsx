@@ -81,7 +81,7 @@ export default function Caravans() {
 
             <div className="flex justify-between">
                 <select value={sort} onChange={(e) => setSort(e.target.value)}>
-                    <option value="">Ordernar por</option>
+                    <option value="">Ordenar por</option>
                     <option value="preco-asc">Preço: mais baixo</option>
                     <option value="preco-desc">Preço: mais alto</option>
                     <option value="avaliacao-asc">Avaliação: mais baixa</option>

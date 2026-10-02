@@ -4,7 +4,7 @@ export function calcularDias(dataInicio, dataFim) {
 
     const diferenca = fim - inicio;
 
-    return diferenca / (1000 * 60 * 60 * 24);
+    return diferenca / (1000 * 60 * 60 * 24) + 1;
 }
 
 

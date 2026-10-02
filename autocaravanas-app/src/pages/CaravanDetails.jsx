@@ -46,6 +46,7 @@ export default function CaravanDetails() {
     setDisponibilidade(null);
 
     if (erro) {
+      setMensagemErro(erro);
       return;
     }
 
